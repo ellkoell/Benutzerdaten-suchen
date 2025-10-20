@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="de">
 <head>
     <!--Client und Serverseitige Validierung, clientseitige deshalb, weil schon vor abschicken geprüft wird, und dann
@@ -13,48 +13,69 @@
 
 </head>
 <?php
-$name = '';
+
+
+require 'C:\Users\ellak\PhpstormProjects\benutzerDaten\PHP-13 userdata.php';
+
+
+$users = $data;
+
 ?>
-<body>
+
 
 <div class="container">
-    <h1 class="mt-3 mb-3">Benutzerdaten anzeigen</h1>
+    <h1 class="mt-5 mb-3">Benutzerdaten anzeigen</h1>
     <form id="form_grade" action="index.php" method="post">
-        <div class="row">
+        <div class="row align-items-end g-2">
             <div class="col-sm-6">
                 <label for="suche">Suche:</label>
                 <input type="text"
                        id="eingabe"
                        name="eingabe"
-                       class="form-control <?= isset($errors['name']) ? 'is-invalid' : '' ?>"
-                       value="<?= htmlspecialchars($name) ?>"
+
                        maxlength="20"
                        required
+                />
             </div>
 
-            <div class="d-flex gap-2 mt-2">
-                <input type="submit" name="submit" class="btn btn-primary" value="Suche">
+            <div class="col-auto d-flex gap-2">
+                <input type="submit" name="submit" class="btn btn-primary" value="Suche"/>
                 <a href="index.php" class="btn btn-secondary">Leeren</a>
             </div>
-<br>
-
-            <table class="table table-striped table-hover table-bordered align-middle shadow-sm">
-
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">E-Mail</th>
-                    <th scope="col">Geburtsdatum</th>
-                    <th scope="col">Details</th>
-                </tr>
-
         </div>
+        <br>
 
-        <?php if (isset($errors['name'])): ?>
-            <div class="invalid-feedback">
-                <?= htmlspecialchars($errors['name']) ?>
-            </div>
-        <?php endif; ?>
-    </form>
+        <table class="table table-striped table-hover table-bordered align-middle shadow-sm">
+
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">E-Mail</th>
+                <th scope="col">Geburtsdatum</th>
+                <th scope="col">Details</th>
+            </tr>
+
+
+            <?php
+            foreach ($users as $user) {
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($user['firstname'] . "" . $user['lastname']) . "</td>";
+                echo "<td>" . htmlspecialchars($user['email']) . "</td>";
+                echo "<td>" . date('d.m.Y', strtotime($user['birthdate'])) . "</td>";
+                echo "<td><a href='details.php?id=" . $user['id'] . "'>Anzeigen</a></td>";
+                echo "</tr>";
+            }
+            ?>
+
+
+</div>
+
+</html>
+<?php if (isset($errors['name'])): ?>
+    <div class="invalid-feedback">
+        <?= htmlspecialchars($errors['name']) ?>
+    </div>
+<?php endif; ?>
+</form>
 </div>
 
 </body>

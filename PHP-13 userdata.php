@@ -1,3 +1,4 @@
+<?php
 $data = [[
     "id" => 1,
     "firstname" => "Hamnet",
