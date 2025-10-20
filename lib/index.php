@@ -36,7 +36,16 @@ $name = '';
                 <input type="submit" name="submit" class="btn btn-primary" value="Suche">
                 <a href="index.php" class="btn btn-secondary">Leeren</a>
             </div>
+<br>
 
+            <table class="table table-striped table-hover table-bordered align-middle shadow-sm">
+
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Geburtsdatum</th>
+                    <th scope="col">Details</th>
+                </tr>
 
         </div>
 
@@ -45,7 +54,8 @@ $name = '';
                 <?= htmlspecialchars($errors['name']) ?>
             </div>
         <?php endif; ?>
+    </form>
 </div>
-</form>
+
 </body>
 <?php
