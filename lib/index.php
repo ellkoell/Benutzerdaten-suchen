@@ -15,10 +15,38 @@
 
 
 require 'C:\Users\ellak\PhpstormProjects\benutzerDaten\PHP-13 userdata.php';
-
-
 $users = $data;
+$filter = isset($_POST['eingabe']) ? $_POST['eingabe'] : '';
 
+
+function getFilteredData($users, $filter)
+{
+    $filter = strtolower($filter); //in kleinbuchstaben umwandeln damit vergleich funktioniert
+    $filtered = [];
+
+    foreach ($users as $user) {
+        $firstname = strtolower($user['firstname']);
+        $lastname = strtolower($user['lastname']);
+        $email = strtolower($user['email']);
+
+        if (str_contains($firstname, $filter) ||
+                str_contains($lastname, $filter) ||
+                str_contains($email, $filter)) {
+            $filtered[] = $user;
+        }
+    }
+
+    return $filtered;
+}
+
+if (!empty($filter)) {
+    $users = getFilteredData($users, $filter);
+    if (empty($users)) {
+        echo "<p class='alert alert-danger'>Es wurde kein Eintrag gefunden!</p>";
+
+    }
+}
+//wenn eingabe gibt, speicher es in filter, sonst lass es leer
 
 ?>
 
