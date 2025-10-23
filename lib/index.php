@@ -15,6 +15,7 @@
 
 
 require 'C:\Users\ellak\PhpstormProjects\benutzerDaten\PHP-13 userdata.php';
+require 'C:\Users\ellak\PhpstormProjects\benutzerDaten\lib\func.php';
 $users = $data;
 $filter = isset($_POST['eingabe']) ? $_POST['eingabe'] : '';
 
@@ -39,11 +40,12 @@ function getFilteredData($users, $filter)
     return $filtered;
 }
 
-if (!empty($filter)) {
-    $users = getFilteredData($users, $filter);
-    if (empty($users)) {
-        echo "<p class='alert alert-danger'>Es wurde kein Eintrag gefunden!</p>";
-
+if (isset($_POST['submit'])) {
+    if (validateSearch($filter)) {
+        $users = getFilteredData($users, $filter);
+        if (empty($users)) {
+            echo "<p class='alert alert-danger'>Es wurde kein Eintrag gefunden!</p>";
+        }
     }
 }
 //wenn eingabe gibt, speicher es in filter, sonst lass es leer
