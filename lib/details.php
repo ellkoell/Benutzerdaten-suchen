@@ -1,4 +1,13 @@
 <?php
+
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+} else {
+    // fehlermeldung
+    echo "<p class='alert alert-danger'>Es wurde keine ID gefunden!</p>";
+    exit;
+}
 function getById($id)
 {
 

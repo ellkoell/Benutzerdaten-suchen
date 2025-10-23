@@ -22,7 +22,7 @@ $users = $data;
 
 ?>
 
-
+<body>
 <div class="container">
     <h1 class="mt-5 mb-3">Benutzerdaten anzeigen</h1>
     <form id="form_grade" action="index.php" method="post">
@@ -66,17 +66,17 @@ $users = $data;
             }
             ?>
 
-
+    </form>
 </div>
-
+</body>
 </html>
 <?php if (isset($errors['name'])): ?>
     <div class="invalid-feedback">
         <?= htmlspecialchars($errors['name']) ?>
     </div>
 <?php endif; ?>
-</form>
-</div>
 
-</body>
+
+
+
 <?php
