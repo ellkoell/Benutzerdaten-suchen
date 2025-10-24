@@ -16,13 +16,16 @@
 
 require 'C:\Users\ellak\PhpstormProjects\benutzerDaten\PHP-13 userdata.php';
 require 'C:\Users\ellak\PhpstormProjects\benutzerDaten\lib\func.php';
+//arrays aus userdata in data speichern
 $users = $data;
+//wenn eingabe gibt, speicher es in filter, sonst lass es leer
 $filter = isset($_POST['eingabe']) ? $_POST['eingabe'] : '';
 
 
 function getFilteredData($users, $filter)
 {
     $filter = strtolower($filter); //in kleinbuchstaben umwandeln damit vergleich funktioniert
+    //ergebnis array
     $filtered = [];
 
     foreach ($users as $user) {
@@ -30,25 +33,28 @@ function getFilteredData($users, $filter)
         $lastname = strtolower($user['lastname']);
         $email = strtolower($user['email']);
 
+        //wenn name, email teil von filter enthalten, dann setzte filtered auf user
         if (str_contains($firstname, $filter) ||
                 str_contains($lastname, $filter) ||
                 str_contains($email, $filter)) {
             $filtered[] = $user;
         }
     }
-
+//user zurückgeben
     return $filtered;
 }
-
+//prüft ob formular abgesendet wurde
 if (isset($_POST['submit'])) {
+    //ruft funktion aus func auf
     if (validateSearch($filter)) {
+        //users wird mit gefilterten daten ersetzt
         $users = getFilteredData($users, $filter);
         if (empty($users)) {
             echo "<p class='alert alert-danger'>Es wurde kein Eintrag gefunden!</p>";
         }
     }
 }
-//wenn eingabe gibt, speicher es in filter, sonst lass es leer
+
 
 ?>
 
@@ -84,29 +90,25 @@ if (isset($_POST['submit'])) {
                 <th scope="col">Details</th>
             </tr>
 
+<!--nur wenn users nicht leer ist, wird tabelle gemacht -->
+            <?php if (!empty($users)): ?>
 
-            <?php
-            foreach ($users as $user) {
-                echo "<tr>";
-                echo "<td>" . htmlspecialchars($user['firstname'] . " " . $user['lastname']) . "</td>";
-                echo "<td>" . htmlspecialchars($user['email']) . "</td>";
-                echo "<td>" . date('d.m.Y', strtotime($user['birthdate'])) . "</td>";
-                echo "<td><a href='details.php?id=" . $user['id'] . "'>Anzeigen</a></td>";
-                echo "</tr>";
-            }
-            ?>
+                <?php foreach ($users as $user): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($user['firstname'] . " " . $user['lastname']) ?></td>
+                        <td><?= htmlspecialchars($user['email']) ?></td>
+                        <td><?= date('d.m.Y', strtotime($user['birthdate'])) ?></td>
+                        <!--detailseite wo für id die des users eingefügt wird -->
+                        <td><a href="details.php?id=<?= $user['id'] ?>">Anzeigen</a></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
+        </table>
     </form>
 </div>
 </body>
 </html>
-<?php if (isset($errors['name'])): ?>
-    <div class="invalid-feedback">
-        <?= htmlspecialchars($errors['name']) ?>
-    </div>
-<?php endif; ?>
-
-
 
 
 <?php
